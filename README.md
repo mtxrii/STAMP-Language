@@ -27,7 +27,7 @@ Valid designations for these are:
 * `loop n times:` - execute statements in this block `n` times
 * `loop n times at i:` - execute statements in this block `n` times and automatically keep an index `i`
 * `while n:` - execute statements in this block over and over until `n` is false
-* `while n at i:` - execute statements in this block over and over until `n` is false and automatically keep an index `i`
+* `while n at i:` - execute statements in this block until `n` is false and automatically keep an index `i`
 * `if n:` - execute statements in this block once if `n` is true
 
 These must end in a colon, and code inside them must be indented by two more spaces than the previous level
