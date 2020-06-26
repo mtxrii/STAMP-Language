@@ -9,7 +9,7 @@ public class Block {
     private List<Loop> children;
     private final boolean main;
 
-    Block(String header) {
+    public Block(String header) {
         this.header = header;
         this.body = new ArrayList<String>();
         this.children = new ArrayList<Loop>();

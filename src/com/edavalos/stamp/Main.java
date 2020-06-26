@@ -33,7 +33,7 @@ public final class Main {
                     continue;
                 }
 
-                if (!Lexer.validate(line, i, args[0])) {
+                if (!Lexer.validateIndent(line, i, args[0])) {
                     break;
                 }
 

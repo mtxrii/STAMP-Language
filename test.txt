@@ -2,6 +2,7 @@ On run:
   print "prog args"
   print a0
   dnwjank // comment
+  // another comment
 
   push 5
 
