@@ -14,20 +14,22 @@ public final class Lexer {
 
 
     public static void processLine(String line) {
-        System.out.println("indent lvl [" + getIndent(line) + "] for: " + line);
+        //System.out.println("indent lvl [" + getIndent(line) + "] for: " + line);
 
         if (line.trim().endsWith(":")) {
+            System.out.println("new block");
             currentBlock = new Block(line);
             return;
         }
 
-        if (indentIncrease < 0) {
+        if (indentIncrease != 0) {
             blocks.add(currentBlock);
             currentBlock = null;
             return;
         }
 
         currentBlock.addLine(line);
+        System.out.println(currentBlock.toString());
 
 
 
@@ -55,7 +57,7 @@ public final class Lexer {
             indentIncrease = -1;
         }
 
-        if (indentLevel == 0 && (currentBlock == null || !line.trim().endsWith(":"))) {
+        if (indentLevel == 0 && currentBlock == null && !line.trim().endsWith(":")) {
             System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Code outside block. Expected inside an 'on run:'");
             return false;
         }

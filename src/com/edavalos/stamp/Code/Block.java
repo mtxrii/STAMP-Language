@@ -13,7 +13,7 @@ public class Block {
         this.header = header;
         this.body = new ArrayList<String>();
         this.children = new ArrayList<Loop>();
-        this.main = header.contains("on run:");
+        this.main = header.toLowerCase().contains("on run:");
     }
 
     public void addLine(String line) {
@@ -38,5 +38,15 @@ public class Block {
 
     public boolean isMain() {
         return main;
+    }
+
+    @Override
+    public String toString() {
+        return "Block{" +
+                "header='" + header + '\'' +
+                ", body=" + body +
+                ", children=" + children +
+                ", main=" + main +
+                '}';
     }
 }

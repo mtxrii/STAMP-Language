@@ -1,5 +1,7 @@
 package com.edavalos.stamp;
 
+import com.edavalos.stamp.Code.Block;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,6 +43,9 @@ public final class Main {
 
                 line = lineReader.readLine();
                 i++;
+            }
+            for (Block b : Lexer.blocks) {
+                System.out.println(b.toString());
             }
             lineReader.close();
         }

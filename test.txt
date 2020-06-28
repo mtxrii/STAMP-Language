@@ -1,17 +1,10 @@
 On run:
-  print "prog args"
-  print a0
-  dnwjank // comment
-  // another comment
+  line 1
+  line 2
 
-  push 5
+  line 3
+  // no comment
 
-  while x:
-    do something
-    do something else
-
-  if x:
-    yes
-
+On other:
+  code
   more code
-  more
