@@ -5,7 +5,7 @@ public final class Lexer {
     public static boolean shouldIndent = false;
 
 
-    public static void processLine(String line) {
+    public static void processLine(String line, int lineNumber) {
 
 
 

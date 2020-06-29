@@ -39,7 +39,7 @@ public final class Main {
                     break;
                 }
 
-                Lexer.processLine(strippedLine);
+                Lexer.processLine(strippedLine, i);
 
                 line = lineReader.readLine();
                 i++;

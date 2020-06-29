@@ -12,5 +12,10 @@ On other:
     code
   another loop:
     inner loop:
-      inner code
+      dwda:
+        if:
+          other if:
+            code
+            ok
+    inner code
   done
