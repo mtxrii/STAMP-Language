@@ -1,6 +1,5 @@
 package com.edavalos.stamp;
 
-import com.edavalos.stamp.Code.Block;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,7 +17,7 @@ public final class Main {
             fileReader = new FileReader(args[0]);
         }
         catch (IOException exception) {
-            System.out.println("File " + args[0] + " not found.");
+            System.out.println("[ERR] File " + args[0] + " not found.");
             return;
         }
 
@@ -29,23 +28,21 @@ public final class Main {
             String line = lineReader.readLine();
             int i = 1;
             while (line != null) {
-                if (removeComments(line.trim()).length() <= 0) {
+                String strippedLine = removeComments(line).replaceAll("\\s+$", "");
+                if (strippedLine.length() <= 0) {
                     line = lineReader.readLine();
                     i++;
                     continue;
                 }
 
-                if (!Lexer.validateIndent(line, i, args[0])) {
+                if (!Lexer.validate(strippedLine, i, args[0])) {
                     break;
                 }
 
-                Lexer.processLine(removeComments(line));
+                Lexer.processLine(strippedLine);
 
                 line = lineReader.readLine();
                 i++;
-            }
-            for (Block b : Lexer.blocks) {
-                System.out.println(b.toString());
             }
             lineReader.close();
         }

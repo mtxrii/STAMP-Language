@@ -7,4 +7,10 @@ On run:
 
 On other:
   code
-  more code
+  more code // dwadw
+  loop:
+    code
+  another loop:
+    inner loop:
+      inner code
+  done

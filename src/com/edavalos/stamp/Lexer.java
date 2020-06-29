@@ -1,75 +1,76 @@
 package com.edavalos.stamp;
 
-import com.edavalos.stamp.Code.Block;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public final class Lexer {
     public static int indentLevel = 0;
-    public static int indentIncrease = 0;
-
-    public static List<Block> blocks = new ArrayList<>();
-    public static Block currentBlock = null;
+    public static boolean shouldIndent = false;
 
 
     public static void processLine(String line) {
-        //System.out.println("indent lvl [" + getIndent(line) + "] for: " + line);
-
-        if (line.trim().endsWith(":")) {
-            System.out.println("new block");
-            currentBlock = new Block(line);
-            return;
-        }
-
-        if (indentIncrease != 0) {
-            blocks.add(currentBlock);
-            currentBlock = null;
-            return;
-        }
-
-        currentBlock.addLine(line);
-        System.out.println(currentBlock.toString());
 
 
 
     }
 
+    public static boolean validate(String line, int lineNumber, String fileName) {
+        if (!validateIndent(line, lineNumber, fileName)) {
+            return false;
+        }
+
+
+        return true;
+    }
+
     public static boolean validateIndent(String line, int lineNumber, String fileName) {
-        if (line.trim().length() <= 0) return true;
+        assert (line.trim().length() > 0);
 
+        boolean hasColon = line.trim().endsWith(":");
         int indent = getIndent(line);
-        indentIncrease = 0;
+        int indentChange = determineIndentChange(indent);
 
-        if (indent > indentLevel*2) {
+        if (indentChange == -99) {
             System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Indent level " + indentLevel + " expected, " +
                     "got " + indent + " instead");
             return false;
         }
 
-        if (indent != indentLevel) {
-            if (indent % 2 != 0) {
-                System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Indent level " + indentLevel + " expected, " +
-                        "got " + indent + " instead");
-                return false;
-            }
-            indentLevel -= 2;
-            indentIncrease = -1;
+        if (indentChange == -404) {
+            System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Indent change is too big. " + (indentLevel + 2) +
+                    " expected, got " + indent + " instead");
+            return false;
         }
 
-        if (indentLevel == 0 && currentBlock == null && !line.trim().endsWith(":")) {
+        if (indent == 0 && !hasColon) {
             System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Code outside block. Expected inside an 'on run:'");
             return false;
         }
 
-        if (line.trim().endsWith(":")) {
-            indentLevel += 2;
-            indentIncrease = 1;
+        if (!shouldIndent && indentChange >= 1) {
+            System.out.println("[ERR] " + fileName + ":" + (lineNumber-1) + " -> Expected statement ending in ':' before indent.");
+            return false;
         }
+
+        if (shouldIndent && indentChange == 0) {
+            System.out.println("[ERR] " + fileName + ":" + (lineNumber) + " -> Expected indent after statement ending in ':'.");
+            return false;
+        }
+
+        shouldIndent = hasColon;
+        indentLevel += indentChange*2;
 
         return true;
 
 
+    }
+
+    private static int determineIndentChange(int indent) {
+        int difference = indent - indentLevel;
+        if (difference % 2 != 0) return -99; // error code for uneven indent
+
+        int change = difference / 2;
+
+        if (change > 1) return -404; // error code for too big indent
+
+        return change;
     }
 
     private static int getIndent(String code) {
