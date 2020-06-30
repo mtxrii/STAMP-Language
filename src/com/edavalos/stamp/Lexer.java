@@ -1,26 +1,24 @@
 package com.edavalos.stamp;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public final class Lexer {
     public static int indentLevel = 0;
     public static boolean shouldIndent = false;
+
+    public static Map<Double, String> tokens = new LinkedHashMap<>();
 
 
     public static void processLine(String line, int lineNumber) {
 
 
-
+        tokens.put((double) lineNumber, line.trim());
     }
 
     public static boolean validate(String line, int lineNumber, String fileName) {
-        if (!validateIndent(line, lineNumber, fileName)) {
-            return false;
-        }
-
-
-        return true;
-    }
-
-    public static boolean validateIndent(String line, int lineNumber, String fileName) {
         assert (line.trim().length() > 0);
 
         boolean hasColon = line.trim().endsWith(":");
@@ -52,6 +50,20 @@ public final class Lexer {
         if (shouldIndent && indentChange == 0) {
             System.out.println("[ERR] " + fileName + ":" + (lineNumber) + " -> Expected indent after statement ending in ':'.");
             return false;
+        }
+
+
+        if (indentChange > 0) {
+            assert indentChange < 2;
+            tokens.put((lineNumber - 0.5), "+");
+        }
+
+        if (indentChange < 0) {
+            double counter = 0.01;
+            for (int i = 0; i < (-1 * indentChange); i++) {
+                tokens.put((lineNumber - 1.0 + counter), "-");
+                counter += 0.01;
+            }
         }
 
         shouldIndent = hasColon;

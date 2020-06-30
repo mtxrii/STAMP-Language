@@ -4,6 +4,7 @@ package com.edavalos.stamp;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 
 public final class Main {
     public static void main(String[] args) throws IOException {
@@ -45,6 +46,7 @@ public final class Main {
                 i++;
             }
             lineReader.close();
+            printMap(Lexer.tokens);
         }
         catch (IOException exception) {
             exception.printStackTrace();
@@ -53,6 +55,14 @@ public final class Main {
 
     public static String removeComments(String code) {
         return code.split("//")[0];
+    }
+
+    public static void printMap(Map<Double, String> map) {
+        for (Map.Entry<Double, String> token : map.entrySet()) {
+            double key = token.getKey();
+            String val = token.getValue();
+            System.out.println(key + " : " + val);
+        }
     }
 
 }
