@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public final class Main {
+    public static String fileName;
+
     public static void main(String[] args) throws IOException {
         if (args == null || args.length < 1) {
             System.out.println("Usage: ./Stamp <Filename> [arg0] [arg1] [arg2] [arg3]");
@@ -36,7 +38,9 @@ public final class Main {
                     continue;
                 }
 
-                if (!Lexer.validate(strippedLine, i, args[0])) {
+                fileName = args[0];
+
+                if (!Lexer.validate(strippedLine, i)) {
                     break;
                 }
 
@@ -47,6 +51,8 @@ public final class Main {
             }
             lineReader.close();
             printMap(Lexer.tokens);
+
+            Parser.parse(Lexer.tokens);
         }
         catch (IOException exception) {
             exception.printStackTrace();

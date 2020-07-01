@@ -1,8 +1,6 @@
 package com.edavalos.stamp;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class Lexer {
@@ -18,7 +16,7 @@ public final class Lexer {
         tokens.put((double) lineNumber, line.trim());
     }
 
-    public static boolean validate(String line, int lineNumber, String fileName) {
+    public static boolean validate(String line, int lineNumber) {
         assert (line.trim().length() > 0);
 
         boolean hasColon = line.trim().endsWith(":");
@@ -26,29 +24,29 @@ public final class Lexer {
         int indentChange = determineIndentChange(indent);
 
         if (indentChange == -99) {
-            System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Indent level " + indentLevel + " expected, " +
+            System.out.println("[ERR] " + Main.fileName + ":" + lineNumber + " -> Indent level " + indentLevel + " expected, " +
                     "got " + indent + " instead");
             return false;
         }
 
         if (indentChange == -404) {
-            System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Indent change is too big. " + (indentLevel + 2) +
+            System.out.println("[ERR] " + Main.fileName + ":" + lineNumber + " -> Indent change is too big. " + (indentLevel + 2) +
                     " expected, got " + indent + " instead");
             return false;
         }
 
         if (indent == 0 && !hasColon) {
-            System.out.println("[ERR] " + fileName + ":" + lineNumber + " -> Code outside block. Expected inside an 'on run:'");
+            System.out.println("[ERR] " + Main.fileName + ":" + lineNumber + " -> Code outside block. Expected inside an 'on run:'");
             return false;
         }
 
         if (!shouldIndent && indentChange >= 1) {
-            System.out.println("[ERR] " + fileName + ":" + (lineNumber-1) + " -> Expected statement ending in ':' before indent.");
+            System.out.println("[ERR] " + Main.fileName + ":" + (lineNumber-1) + " -> Expected statement ending in ':' before indent.");
             return false;
         }
 
         if (shouldIndent && indentChange == 0) {
-            System.out.println("[ERR] " + fileName + ":" + (lineNumber) + " -> Expected indent after statement ending in ':'.");
+            System.out.println("[ERR] " + Main.fileName + ":" + (lineNumber) + " -> Expected indent after statement ending in ':'.");
             return false;
         }
 
