@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Block {
     private int id; // line
-    private String name; // "on <name>"
+    private String name; // name part of "on <name>:"
     private List<Child> children; // Any code inside
 
     public Block(int line, String name) {
@@ -16,5 +16,17 @@ public class Block {
 
     public void addStatement(Child statement) {
         children.add(statement);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Child> getChildren() {
+        return children;
     }
 }

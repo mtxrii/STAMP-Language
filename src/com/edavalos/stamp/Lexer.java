@@ -67,6 +67,10 @@ public final class Lexer {
         shouldIndent = hasColon;
         indentLevel += indentChange*2;
 
+        if (indentLevel == 0) {
+            Parser.inBlock = false;
+        }
+
         return true;
 
 

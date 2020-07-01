@@ -10,11 +10,27 @@ import java.util.List;
 public class Loop extends Child {
     private LoopType type; // If, For(i), or While(i)
     private List<Child> contents; // Any code inside
+    private boolean keepIndex; // Does it have an 'at i'?
+    private String index; // only has value when keepIndex is true
+    private String arg; // Condition or times to loop
 
-    public Loop(int line, LoopType loopType) {
+    public Loop(int line, LoopType loopType, String index, String args) {
         super(line, Statement.LOOP);
         this.type = loopType;
+        this.arg = args;
         this.contents = new ArrayList<>();
+
+        this.keepIndex = true;
+        this.index = index;
+    }
+    public Loop(int line, LoopType loopType, String args) {
+        super(line, Statement.LOOP);
+        this.type = loopType;
+        this.arg = args;
+        this.contents = new ArrayList<>();
+
+        this.keepIndex = false;
+        this.index = null;
     }
 
     public void addStatement(Child statement) {
