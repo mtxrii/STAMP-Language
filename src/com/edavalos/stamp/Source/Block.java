@@ -6,7 +6,7 @@ import java.util.List;
 public class Block {
     private int id; // line
     private String name; // name part of "on <name>:"
-    private List<Child> children; // Any code inside
+    private List<? extends Child> children; // Any code inside
 
     public Block(int line, String name) {
         this.id = line;
