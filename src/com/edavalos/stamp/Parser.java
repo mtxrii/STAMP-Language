@@ -1,6 +1,7 @@
 package com.edavalos.stamp;
 
 import com.edavalos.stamp.Source.Block;
+import com.edavalos.stamp.Source.Child;
 import com.edavalos.stamp.Source.ChildTypes.*;
 import com.edavalos.stamp.Types.Action;
 import com.edavalos.stamp.Types.LoopType;
@@ -9,11 +10,16 @@ import com.edavalos.stamp.Types.VarType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public final class Parser {
     public static List<Block> blocks = new ArrayList<>();
     public static Block currentBlock;
     public static boolean inBlock = false;
+
+    public static Stack<Loop> loops = new Stack<>();
+    public static Loop currentLoop;
+    public static boolean inLoop = false;
 
 //    public static Map<String, Object> variables = new HashMap<>();
 
@@ -21,8 +27,8 @@ public final class Parser {
         for (Map.Entry<Double, String> token : tokens.entrySet()) {
             double line = token.getKey();
             String statement = token.getValue();
-
             String firstWord = (statement.split(" ")[0]).toUpperCase();
+            boolean found = false;
 
 //            if (statement.equals("+")) {
 //                enterBlock();
@@ -47,11 +53,13 @@ public final class Parser {
             boolean isLoop = (firstWord.equals("LOOP") || firstWord.equals("WHILE") || firstWord.equals("IF"));
             if (!statement.endsWith(":") && isLoop) {
                 System.out.println("[ERR] " + Main.fileName + ":" + ((int) line) + " -> Loop '" + statement + "' should end with ':'");
+                found = true;
                 System.exit(0);
             }
 
             if (statement.endsWith(":") && !isLoop) {
                 System.out.println("[ERR] " + Main.fileName + ":" + ((int) line) + " -> Loop '" + statement + "' is not a valid loop.");
+                found = true;
                 System.exit(0);
             }
 
@@ -60,7 +68,6 @@ public final class Parser {
                 continue;
             }
 
-            boolean found = false;
             for (Action act : Action.values()) {
                 if (act.name().equals(firstWord)) {
                     addFunc(statement, ((int) line));
@@ -94,13 +101,27 @@ public final class Parser {
     }
 
     private static void leaveBlock() {
+        // if section leaving is a block
         if (!inBlock) {
             blocks.add(currentBlock);
+            currentBlock = null;
         }
 
+        // if section leaving is a loop
         else {
+            inLoop = (Lexer.indentLevel > 2) && (loops.size() > 0);
 
+            if (inLoop) {
+                Loop top = loops.pop();
+                top.addStatement(currentLoop);
+                currentLoop = top;
+            }
 
+            else {
+                assert Lexer.indentLevel == 2;
+                currentBlock.addStatement(currentLoop);
+                currentLoop = null;
+            }
 
         }
     }
@@ -118,7 +139,7 @@ public final class Parser {
             String contents = statement.split("=")[1];
             VarType type = VarType.valueOf(parts[0].toUpperCase());
 
-            currentBlock.addStatement(new Var(line, type, parts[1], contents));
+            insertStatement(new Var(line, type, parts[1], contents));
 
             return;
         }
@@ -127,7 +148,7 @@ public final class Parser {
             // existing var
             String contents = statement.split("=")[1];
 
-            currentBlock.addStatement(new Var(line, parts[0], contents));
+            insertStatement(new Var(line, parts[0], contents));
 
             return;
         }
@@ -141,10 +162,10 @@ public final class Parser {
         String[] parts = header.toUpperCase().split(" ");
         if (parts.length > 2 && parts[0].equals("LOOP") && parts[2].equals("TIMES")) {
             if (parts.length > 5 && parts[3].equals("AT")) {
-                currentBlock.addStatement(new Loop(line, LoopType.FORI, parts[4], parts[1]));
+                insertLoop(new Loop(line, LoopType.FORI, parts[4], parts[1]));
                 return;
             }
-            currentBlock.addStatement(new Loop(line, LoopType.FOR, parts[1]));
+            insertLoop(new Loop(line, LoopType.FOR, parts[1]));
             return;
         }
 
@@ -152,16 +173,16 @@ public final class Parser {
             String args = header.toUpperCase().replaceFirst("WHILE", "")
                     .replaceFirst("AT", "").replace(parts[parts.length-1], "");
             if (header.toUpperCase().contains("AT")) {
-                currentBlock.addStatement(new Loop(line, LoopType.WHILEI, parts[parts.length-1], args));
+                insertLoop(new Loop(line, LoopType.WHILEI, parts[parts.length-1], args));
             }
             else {
-                currentBlock.addStatement(new Loop(line, LoopType.WHILE, args));
+                insertLoop(new Loop(line, LoopType.WHILE, args));
             }
             return;
         }
 
         if (parts.length > 1 && parts[0].equals("IF")) {
-            currentBlock.addStatement(new Loop(line, LoopType.IF, header.toUpperCase().replaceFirst("IF", "")));
+            insertLoop(new Loop(line, LoopType.IF, header.toUpperCase().replaceFirst("IF", "")));
         }
     }
 
@@ -169,7 +190,25 @@ public final class Parser {
         String[] parts = statement.split(" ");
         Action action = Action.valueOf(parts[0].toUpperCase());
 
-        currentBlock.addStatement(new Func(line, action, statement.replaceFirst(parts[0], "")));
+        insertStatement(new Func(line, action, statement.replaceFirst(parts[0], "")));
+    }
+
+
+    private static void insertStatement(Child statement) {
+        if (inLoop) {
+            currentLoop.addStatement(statement);
+        }
+        else {
+            currentBlock.addStatement(statement);
+        }
+    }
+
+    private static void insertLoop(Loop loop) {
+        if (inLoop) {
+            loops.push(currentLoop);
+        }
+        currentLoop = loop;
+        inLoop = true;
     }
 
 
