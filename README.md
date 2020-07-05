@@ -1,6 +1,16 @@
 # STAMP Lang
 ### Simple Translated Assembly Markup Programming Language
 
+# Usage
+### Execution
+Run Stamp once compiled with the files to execute as the first program argument. Arguments following filename will apply to your script. Like such:
+
+```
+./STAMP Fibo-Sequence.txt 6 -v
+```
+
+In this case a script named Fibo-Sequence is run with program arguments `6` and `-v`
+
 # Syntax
 ### Blocks & Indenting
 Programs in Stamp are divided into blocks of code. Each block is independent to eachother to allow different blocks to be designated for different tasks. A new block is designated with the `on` keyword followed by a name. The 'on run:' header is required somewhere, as this is the entry point to your program.
