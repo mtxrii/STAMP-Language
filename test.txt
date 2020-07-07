@@ -1,21 +1,22 @@
 On run:
-  line 1
-  line 2
-
-  line 3
-  // no comment
+  int x = 4
+  x = 1
+  print "test"
+  print x
+  
+  jump other
+  print x
 
 On other:
-  code
-  more code // dwadw
-  loop:
-    code
-  another loop:
-    inner loop:
-      dwda:
-        if:
-          other if:
-            code
-            ok
-    inner code
-  done
+  x = x + 1
+  // comment
+  if x != 0:
+    print "loop"
+  loop 2 times at i:
+    flo b = 0.5
+    while b < 2.5:
+      print b + "th time"
+      b = b + 1.1
+    print i * 2
+    x = x + i
+  return
