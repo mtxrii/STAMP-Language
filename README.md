@@ -6,10 +6,10 @@
 Run Stamp once compiled with the files to execute as the first program argument. Arguments following filename will apply to your script. Like such:
 
 ```
-./STAMP Fibo-Sequence.txt 6 -v
+./STAMP Fibo-Sequence.txt 6 --v
 ```
 
-In this case a script named Fibo-Sequence is run with program arguments `6` and `-v`
+In this case a script named Fibo-Sequence is run with program arguments `6` and `--v`
 
 # Syntax
 ### Blocks & Indenting
