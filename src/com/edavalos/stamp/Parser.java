@@ -21,7 +21,7 @@ public final class Parser {
     public static Loop currentLoop;
     public static boolean inLoop = false;
 
-//    public static Map<String, Object> variables = new HashMap<>();
+    public static Stack<String> indents = new Stack<>();
 
     public static void parse(Map<Double, String> tokens) {
         for (Map.Entry<Double, String> token : tokens.entrySet()) {
@@ -31,10 +31,12 @@ public final class Parser {
             boolean found = false;
 
             if (statement.equals("+")) {
+                indents.push("+");
                 continue;
             }
 
             if (statement.equals("-")) {
+                indents.pop();
                 leaveBlock();
                 continue;
             }
@@ -44,7 +46,7 @@ public final class Parser {
                 continue;
             }
 
-            if (statement.contains("=") && !statement.contains("==")) {
+            if (statement.contains("=") && !statement.contains("==") && !statement.contains("!=")) {
                 addVar(statement, ((int) line));
                 continue;
             }
@@ -100,6 +102,10 @@ public final class Parser {
     }
 
     private static void leaveBlock() {
+        if (indents.isEmpty()) {
+            inBlock = false;
+        }
+
         // if section leaving is a block
         if (!inBlock) {
             blocks.add(currentBlock);
