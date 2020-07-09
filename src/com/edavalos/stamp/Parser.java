@@ -30,10 +30,9 @@ public final class Parser {
             String firstWord = (statement.split(" ")[0]).toUpperCase();
             boolean found = false;
 
-//            if (statement.equals("+")) {
-//                enterBlock();
-//                continue;
-//            }
+            if (statement.equals("+")) {
+                continue;
+            }
 
             if (statement.equals("-")) {
                 leaveBlock();

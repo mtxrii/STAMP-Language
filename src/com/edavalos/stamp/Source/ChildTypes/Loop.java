@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Loop extends Child {
     private LoopType type; // If, For(i), or While(i)
-    private List<? extends Child> contents; // Any code inside
+    private List contents; // Any code inside
     private boolean keepIndex; // Does it have an 'at i'?
     private String index; // only has value when keepIndex is true
     private String arg; // Condition or times to loop
