@@ -53,7 +53,7 @@ public final class Main {
                 i++;
             }
 
-            Lexer.tokens.put(99999.999, "~endoffile~");
+            Lexer.tokens.put(i + 1.5, "~endoffile~");
 
             lineReader.close();
             printMap(Lexer.tokens);

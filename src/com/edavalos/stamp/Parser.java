@@ -122,7 +122,7 @@ public final class Parser {
 
         // if section leaving is a loop
         else {
-            inLoop = (Lexer.indentLevel > 2) && (loops.size() > 0);
+            inLoop = (indents.size() > 1) && (loops.size() > 0);
 
             if (inLoop) {
                 Loop top = loops.pop();
@@ -174,7 +174,7 @@ public final class Parser {
     private static void addLoop(String header, int line) {
         String[] parts = header.toUpperCase().split(" ");
         if (parts.length > 2 && parts[0].equals("LOOP") && parts[2].equals("TIMES")) {
-            if (parts.length > 5 && parts[3].equals("AT")) {
+            if (parts.length >= 5 && header.contains(" at ")) {
                 insertLoop(new Loop(line, LoopType.FORI, parts[4], parts[1]));
                 return;
             }
