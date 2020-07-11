@@ -58,7 +58,9 @@ public class Block {
                 if (type == Statement.LOOP) {
                     assert statement instanceof Loop;
                     Loop loop = ((Loop) statement);
-                    str += indents + "NEW LOOP: " + loop.getType().name() + "\n";
+                    str += indents + "NEW LOOP: " + loop.getType().name();
+
+                    str += loop.CalculateToString(indents);
                 }
             }
         }
