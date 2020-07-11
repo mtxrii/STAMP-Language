@@ -26,6 +26,18 @@ public class Var extends Child {
         this.isNew = false;
     }
 
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public VarType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public void run() {
 

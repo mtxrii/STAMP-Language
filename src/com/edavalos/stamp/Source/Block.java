@@ -1,5 +1,9 @@
 package com.edavalos.stamp.Source;
 
+import com.edavalos.stamp.Runner;
+import com.edavalos.stamp.Source.ChildTypes.*;
+import com.edavalos.stamp.Types.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,5 +32,36 @@ public class Block {
 
     public List getChildren() {
         return children;
+    }
+
+    public String toString() {
+        String indents = "  ";
+        String str = name + " {\n";
+        for (Object statement : children) {
+            Statement type = Runner.determineStatementType(statement);
+            if (type == null) {
+                str += indents + "UNKNOWN ACTION\n";
+            }
+            else {
+                if (type == Statement.VAR) {
+                    assert statement instanceof Var;
+                    Var variable = ((Var) statement);
+                    str += indents + "VARIABLE ASSIGNMENT: " + variable.getName() + "\n";
+                    continue;
+                }
+                if (type == Statement.FUNC) {
+                    assert statement instanceof Func;
+                    Func function = ((Func) statement);
+                    str += indents + "FUNCTION CALL: " + function.getAction().name() + "\n";
+                    continue;
+                }
+                if (type == Statement.LOOP) {
+                    assert statement instanceof Loop;
+                    Loop loop = ((Loop) statement);
+                    str += indents + "NEW LOOP: " + loop.getType().name() + "\n";
+                }
+            }
+        }
+        return str + "}";
     }
 }

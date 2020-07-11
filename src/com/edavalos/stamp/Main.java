@@ -1,15 +1,18 @@
 package com.edavalos.stamp;
 
 
+import com.edavalos.stamp.Source.Block;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public final class Main {
     public static String fileName;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args == null || args.length < 1) {
             System.out.println("Usage: ./Stamp <Filename> [arg0] [arg1] [arg2] [arg3]");
             return;
@@ -49,10 +52,14 @@ public final class Main {
                 line = lineReader.readLine();
                 i++;
             }
+
+            Lexer.tokens.put(99999.999, "~endoffile~");
+
             lineReader.close();
             printMap(Lexer.tokens);
 
             Parser.parse(Lexer.tokens);
+            printBlocks(Parser.blocks);
         }
         catch (IOException exception) {
             exception.printStackTrace();
@@ -68,6 +75,12 @@ public final class Main {
             double key = token.getKey();
             String val = token.getValue();
             System.out.println(key + " : " + val);
+        }
+    }
+
+    public static void printBlocks(List<Block> blocks) {
+        for (Block b : blocks) {
+            System.out.println(b.toString());
         }
     }
 

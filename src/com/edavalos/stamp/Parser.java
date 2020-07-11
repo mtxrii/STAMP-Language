@@ -41,6 +41,14 @@ public final class Parser {
                 continue;
             }
 
+            if (statement.equals("~endoffile~")) {
+                while (indents.size() > 0) {
+                    indents.pop();
+                    leaveBlock();
+                }
+                continue;
+            }
+
             if (firstWord.equals("ON") && statement.endsWith(":")) {
                 addBlock(statement, ((int) line));
                 continue;

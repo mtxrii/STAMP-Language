@@ -14,6 +14,10 @@ public class Func extends Child {
         this.args = args;
     }
 
+    public Action getAction() {
+        return action;
+    }
+
     @Override
     public void run() {
 

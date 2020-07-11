@@ -37,6 +37,10 @@ public class Loop extends Child {
         contents.add(statement);
     }
 
+    public LoopType getType() {
+        return type;
+    }
+
     @Override
     public void run() {
 

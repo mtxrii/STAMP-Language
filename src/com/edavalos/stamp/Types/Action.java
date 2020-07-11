@@ -18,7 +18,6 @@ public enum Action {
     SPOT,     // str <identifier> - stores current line number under an identifier to jump back to
     JUMP,     // str <identifier> - goes to line number of given identifier and continues with code there.
               //                    Can be a spot ('spot <name>') or block ('on <name>').
-    END,      // no args - ends program. Like a Syscall 10 or a Raise SysExit
     CONTINUE, // no args - skips to next iteration of a loop. Not allowed outside loops
     BREAK,    // no args - ends current loop and continues outside. If run outside a loop it ends the
               //           code block and returns to where block was called. If run in main block
@@ -28,6 +27,7 @@ public enum Action {
 
     /** System actions **/
     WAIT,     // int|flo <var|literal> - sleeps thread for given seconds
+    END,      // no args - ends program. Like a Syscall 10 or a Raise SysExit
 
     /** Conversion actions **/
     MAKE_INT, // <var> - makes var of type int (error if: type is str & isnt only numbers)
