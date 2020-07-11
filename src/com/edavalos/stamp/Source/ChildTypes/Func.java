@@ -52,4 +52,80 @@ public class Func extends Child {
     private static boolean a_type(String[] args) {
         return true;
     }
+
+    private static boolean a_spot(String[] args) {
+        return true;
+    }
+
+    private static boolean a_jump(String[] args) {
+        return true;
+    }
+
+    private static boolean a_continue() {
+        return true;
+    }
+
+    private static boolean a_break() {
+        return true;
+    }
+
+    private static boolean a_return() {
+        return true;
+    }
+
+    private static boolean a_wait(String[] args) {
+        return true;
+    }
+
+    private static boolean a_end() {
+        return true;
+    }
+
+    private static boolean a_make_int(String[] args) {
+        return true;
+    }
+
+    private static boolean a_make_flo(String[] args) {
+        return true;
+    }
+
+    private static boolean a_make_str(String[] args) {
+        return true;
+    }
+
+    private static boolean a_make_bln(String[] args) {
+        return true;
+    }
+
+    private static boolean a_randflo(String[] args) {
+        return true;
+    }
+
+    private static boolean a_randint(String[] args) {
+        return true;
+    }
+
+    private static boolean a_randbln(String[] args) {
+        return true;
+    }
+
+    private static boolean a_sin(String[] args) {
+        return true;
+    }
+
+    private static boolean a_cos(String[] args) {
+        return true;
+    }
+
+    private static boolean a_tan(String[] args) {
+        return true;
+    }
+
+    private static boolean a_abs(String[] args) {
+        return true;
+    }
+
+    private static boolean a_round(String[] args) {
+        return true;
+    }
 }
