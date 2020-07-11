@@ -22,4 +22,34 @@ public class Func extends Child {
     public void run() {
 
     }
+
+//    ############################### STATIC METHODS ###############################
+
+    private static boolean a_print(String[] args) {
+        return true;
+    }
+
+    private static boolean a_put(String[] args) {
+        return true;
+    }
+
+    private static boolean a_input(String[] args) {
+        return true;
+    }
+
+    private static boolean a_push(String[] args) {
+        return true;
+    }
+
+    private static boolean a_pop(String[] args) {
+        return true;
+    }
+
+    private static boolean a_length(String[] args) {
+        return true;
+    }
+
+    private static boolean a_type(String[] args) {
+        return true;
+    }
 }

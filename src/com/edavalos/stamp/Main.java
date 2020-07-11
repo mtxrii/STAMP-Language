@@ -11,6 +11,7 @@ import java.util.Map;
 
 public final class Main {
     public static String fileName;
+    public static boolean debugMode = false;
 
     public static void main(String[] args) {
         if (args == null || args.length < 1) {
@@ -56,10 +57,12 @@ public final class Main {
             Lexer.tokens.put(i + 1.5, "~endoffile~");
 
             lineReader.close();
-            printMap(Lexer.tokens);
+            if (debugMode) printMap(Lexer.tokens);
 
             Parser.parse(Lexer.tokens);
-            printBlocks(Parser.blocks);
+            if (debugMode) printBlocks(Parser.blocks);
+
+            Runner.execute(Parser.blocks, args);
         }
         catch (IOException exception) {
             exception.printStackTrace();
