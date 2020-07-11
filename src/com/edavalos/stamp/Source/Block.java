@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Block {
-    private int id; // line
-    private String name; // name part of "on <name>:"
-    private List children; // Any code inside
+    private final int id; // line
+    private final String name; // name part of "on <name>:"
+    private final List children; // Any code inside
 
     public Block(int line, String name) {
         this.id = line;
@@ -36,31 +36,31 @@ public class Block {
 
     public String toString() {
         String indents = "  ";
-        String str = name + " {\n";
+        StringBuilder str = new StringBuilder(name + " {\n");
         for (Object statement : children) {
             Statement type = Runner.determineStatementType(statement);
             if (type == null) {
-                str += indents + "UNKNOWN ACTION\n";
+                str.append(indents).append("UNKNOWN ACTION\n");
             }
             else {
                 if (type == Statement.VAR) {
                     assert statement instanceof Var;
                     Var variable = ((Var) statement);
-                    str += indents + "VARIABLE ASSIGNMENT: " + variable.getName() + "\n";
+                    str.append(indents).append("VARIABLE ASSIGNMENT: ").append(variable.getName()).append("\n");
                     continue;
                 }
                 if (type == Statement.FUNC) {
                     assert statement instanceof Func;
                     Func function = ((Func) statement);
-                    str += indents + "FUNCTION CALL: " + function.getAction().name() + "\n";
+                    str.append(indents).append("FUNCTION CALL: ").append(function.getAction().name()).append("\n");
                     continue;
                 }
                 if (type == Statement.LOOP) {
                     assert statement instanceof Loop;
                     Loop loop = ((Loop) statement);
-                    str += indents + "NEW LOOP: " + loop.getType().name();
+                    str.append(indents).append("NEW LOOP: ").append(loop.getType().name());
 
-                    str += loop.CalculateToString(indents);
+                    str.append(loop.CalculateToString(indents));
                 }
             }
         }

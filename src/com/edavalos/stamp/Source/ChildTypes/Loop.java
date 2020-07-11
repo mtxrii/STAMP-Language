@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Loop extends Child {
-    private LoopType type; // If, For(i), or While(i)
-    private List contents; // Any code inside
-    private boolean keepIndex; // Does it have an 'at i'?
+    private final LoopType type; // If, For(i), or While(i)
+    private final List contents; // Any code inside
+    private final boolean keepIndex; // Does it have an 'at i'?
     private String index; // only has value when keepIndex is true
     private String arg; // Condition or times to loop
 
@@ -45,31 +45,31 @@ public class Loop extends Child {
     public String CalculateToString(String indent) {
 
         String indents = indent + "  ";
-        String str = " {\n";
+        StringBuilder str = new StringBuilder(" {\n");
         for (Object statement : contents) {
             Statement type = Runner.determineStatementType(statement);
             if (type == null) {
-                str += indents + "UNKNOWN ACTION\n";
+                str.append(indents).append("UNKNOWN ACTION\n");
             }
             else {
                 if (type == Statement.VAR) {
                     assert statement instanceof Var;
                     Var variable = ((Var) statement);
-                    str += indents + "VARIABLE ASSIGNMENT: " + variable.getName() + "\n";
+                    str.append(indents).append("VARIABLE ASSIGNMENT: ").append(variable.getName()).append("\n");
                     continue;
                 }
                 if (type == Statement.FUNC) {
                     assert statement instanceof Func;
                     Func function = ((Func) statement);
-                    str += indents + "FUNCTION CALL: " + function.getAction().name() + "\n";
+                    str.append(indents).append("FUNCTION CALL: ").append(function.getAction().name()).append("\n");
                     continue;
                 }
                 if (type == Statement.LOOP) {
                     assert statement instanceof Loop;
                     Loop loop = ((Loop) statement);
-                    str += indents + "NEW LOOP: " + loop.getType().name();
+                    str.append(indents).append("NEW LOOP: ").append(loop.getType().name());
 
-                    str += loop.CalculateToString(indents);
+                    str.append(loop.CalculateToString(indents));
                 }
             }
         }

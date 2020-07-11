@@ -5,9 +5,9 @@ import com.edavalos.stamp.Types.Statement;
 import com.edavalos.stamp.Types.VarType;
 
 public class Var extends Child {
-    private boolean isNew; // if statement has variable type
-    private VarType type; // primitive type for var
-    private String name; // identifier for variable
+    private final boolean isNew; // if statement has variable type
+    private final VarType type; // primitive type for var
+    private final String name; // identifier for variable
     private String contents; // what to set var to
 
     public Var(int line, VarType variableType, String identifier, String contents) {
