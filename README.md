@@ -11,7 +11,14 @@ Run Stamp once compiled with the files to execute as the first program argument.
 
 In this case a script named Fibo-Sequence is run with program arguments `6` and `--v`
 
-# Syntax
+# Full Syntax
+STAMP Lang scripts are composed of three types of statements.
+* Actions (aka functions)
+* Assignments (aka variables)
+* Conditionals (aka if's & loops)
+
+And every statement lives inside a block.
+
 ### Blocks & Indenting
 Programs in Stamp are divided into blocks of code. Each block is independent to eachother to allow different blocks to be designated for different tasks. A new block is designated with the `on` keyword followed by a name. The 'on run:' header is required somewhere, as this is the entry point to your program.
 ```
@@ -29,9 +36,8 @@ on end:
   print "Goodbye"
 ```
 
-
-### Ifs & Loops
-Inside a block, there can be smaller sub-blocks for conditionals and loops.
+### Conditionals / Ifs & Loops
+Inside a block, smaller sub-blocks can be created by declaring a conditional.
 
 Valid designations for these are:
 * `loop n times:` - execute statements in this block `n` times
@@ -41,27 +47,64 @@ Valid designations for these are:
 * `if n:` - execute statements in this block once if `n` is true
 
 These must end in a colon, and code inside them must be indented by two more spaces than the previous level
-```
-on run:
-  loop 7 times at i:
-    if i == 5:
-      jump biz
-      continue
+<details>
+  <summary>Example</summary>
+  
+  ```
+  on run:
+    loop 7 times at i:
+      if i == 5:
+        jump biz
+        continue
     
-    print i
+      print i
     
 
-on biz:
-  print "BIZ!"
-  return
-```
-The above prints the following:
-```
-1
-2
-3
-4
-BIZ!
-6
-7
-```
+  on biz:
+    print "BIZ!"
+    return
+  ```
+  The above prints the following:
+  ```
+  0
+  1
+  2
+  3
+  4
+  BIZ!
+  6
+  ```
+  
+</details>
+
+### Assignments / Variables
+You can assign values to variables on the heap, or temporarily push a value onto the stack. Variables on the heap are statically typed, so the first time you assign a new variable, you must provide a type. 
+
+The four variable types are as follows:
+* INT (Integer)
+* FLO (Float)
+* STR (String)
+* BLN (Boolean)
+
+The syntax for declaration is `type name = value` and the syntax for updating / resetting already existing variables is `name = new value`
+<details>
+  <summary>Example</summary>
+  
+  ```
+  int x = 3
+  int y = 7
+  int z = x + y
+  
+  flo d = 3.5
+  str e = "Hello"
+  
+  x = 4
+  bln i = T
+  
+  if i:
+    y = 2 * x
+  
+  print y
+  // should print "8"
+  ```
+</details>
