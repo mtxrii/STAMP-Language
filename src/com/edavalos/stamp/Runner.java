@@ -30,9 +30,18 @@ public final class Runner {
     public static Statement determineStatementType(Object child) {
         if (child instanceof Func) return Statement.FUNC;
         if (child instanceof Loop) return Statement.LOOP;
-        if (child instanceof Var) return Statement.VAR;
+        if (child instanceof Var)  return Statement.VAR;
 
         return null;
+    }
+
+    public static void printVariables() {
+        for (Map.Entry<String, VarNode<?>> variable : variables.entrySet()) {
+            String name = variable.getKey();
+            String type = variable.getValue().getContents().getClass().toString();
+            String value = variable.getValue().getContents().toString();
+            System.out.println(type + " " + name + " = " + value);
+        }
     }
 
 }

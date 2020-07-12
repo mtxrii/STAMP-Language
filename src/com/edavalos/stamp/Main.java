@@ -63,6 +63,7 @@ public final class Main {
             if (debugMode) printBlocks(Parser.blocks);
 
             Runner.execute(Parser.blocks, args);
+            if (debugMode) Runner.printVariables();
         }
         catch (IOException exception) {
             exception.printStackTrace();

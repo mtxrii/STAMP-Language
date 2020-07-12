@@ -43,7 +43,6 @@ public class Loop extends Child {
     }
 
     public String CalculateToString(String indent) {
-
         String indents = indent + "  ";
         StringBuilder str = new StringBuilder(" {\n");
         for (Object statement : contents) {
