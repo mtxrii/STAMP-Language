@@ -11,7 +11,7 @@ import java.util.Map;
 
 public final class Main {
     public static String fileName;
-    public static boolean debugMode = false;
+    public static boolean debugMode = true;
 
     public static void main(String[] args) {
         if (args == null || args.length < 1) {

@@ -37,14 +37,14 @@ public final class Parser {
 
             if (statement.equals("-")) {
                 indents.pop();
-                leaveBlock();
+                leaveBlock(line);
                 continue;
             }
 
             if (statement.equals("~endoffile~")) {
                 while (indents.size() > 0) {
                     indents.pop();
-                    leaveBlock();
+                    leaveBlock(line);
                 }
                 continue;
             }
@@ -109,7 +109,7 @@ public final class Parser {
         inBlock = true;
     }
 
-    private static void leaveBlock() {
+    private static void leaveBlock(double line) {
         if (indents.isEmpty()) {
             inBlock = false;
         }
@@ -125,6 +125,11 @@ public final class Parser {
             inLoop = (indents.size() > 1) && (loops.size() > 0);
 
             if (inLoop) {
+                if (currentLoop.isEmpty()) {
+                    System.out.println("[ERR] " + Main.fileName + ":" + ((int) line - 3) + " -> Blocks of code should not be left empty.");
+                    System.exit(0);
+                }
+
                 Loop top = loops.pop();
                 top.addStatement(currentLoop);
                 currentLoop = top;
@@ -172,30 +177,15 @@ public final class Parser {
     }
 
     private static void addLoop(String header, int line) {
-        String[] parts = header.toUpperCase().split(" ");
-        if (parts.length > 2 && parts[0].equals("LOOP") && parts[2].equals("TIMES")) {
-            if (parts.length >= 5 && header.contains(" at ")) {
-                insertLoop(new Loop(line, LoopType.FORI, parts[4], parts[1]));
-                return;
-            }
-            insertLoop(new Loop(line, LoopType.FOR, parts[1]));
-            return;
-        }
+        LoopType loopType = determineLoopType(header);
+        String[] parts = deconstructLoop(loopType, header);
 
-        if (parts[0].equals("WHILE")) {
-            String args = header.toUpperCase().replaceFirst("WHILE", "")
-                    .replaceFirst("AT", "").replace(parts[parts.length-1], "");
-            if (header.toUpperCase().contains("AT")) {
-                insertLoop(new Loop(line, LoopType.WHILEI, parts[parts.length-1], args));
-            }
-            else {
-                insertLoop(new Loop(line, LoopType.WHILE, args));
-            }
-            return;
-        }
-
-        if (parts.length > 1 && parts[0].equals("IF")) {
-            insertLoop(new Loop(line, LoopType.IF, header.toUpperCase().replaceFirst("IF", "")));
+        switch (loopType) {
+            case IF     -> insertLoop(new Loop(line, LoopType.IF, parts[0]));
+            case WHILE  -> insertLoop(new Loop(line, LoopType.WHILE, parts[0]));
+            case WHILEI -> insertLoop(new Loop(line, LoopType.WHILEI, parts[1], parts[0]));
+            case FOR    -> insertLoop(new Loop(line, LoopType.FOR, parts[0]));
+            case FORI   -> insertLoop(new Loop(line, LoopType.FORI, parts[1], parts[0]));
         }
     }
 
@@ -222,6 +212,40 @@ public final class Parser {
         }
         currentLoop = loop;
         inLoop = true;
+    }
+
+    private static LoopType determineLoopType(String header) {
+        String[] parts = header.split(" ");
+        return switch (parts[0].toUpperCase()) {
+            case "IF" -> LoopType.IF;
+            case "LOOP" -> {
+                if (!header.toUpperCase().contains("TIMES")) yield null;
+                else if (header.toUpperCase().contains("AT")) yield LoopType.FORI;
+                else yield LoopType.FOR;
+            }
+            case "WHILE" -> {
+                if (header.toUpperCase().contains("AT")) yield LoopType.WHILEI;
+                else yield LoopType.WHILE;
+            }
+            default -> null;
+        };
+    }
+
+    private static String[] deconstructLoop(LoopType type, String header) {
+        return switch (type) {
+            case IF     -> header.toUpperCase().replace(":", "").split("IF ");
+            case WHILE  -> header.toUpperCase().replace(":", "").split("WHILE ");
+            case FOR    -> header.toUpperCase().replace("TIMES:", "").split("LOOP ");
+
+            case WHILEI -> {
+                String stripped = header.toUpperCase().replace("WHILE ", "").replace(":", "");
+                yield stripped.split(" AT ");
+            }
+            case FORI   -> {
+                String stripped = header.toUpperCase().replace("LOOP ", "").replace(":", "");
+                yield stripped.split(" TIMES AT ");
+            }
+        };
     }
 
 

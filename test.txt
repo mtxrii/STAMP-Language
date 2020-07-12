@@ -3,7 +3,7 @@ On run:
   x = 1
   print "test"
   print x
-  
+
   jump other
   print x
 
@@ -14,9 +14,20 @@ On other:
     print "loop"
   loop 2 times at i:
     flo b = 0.5
-    while b < 2.5 at i:
+    while b at i:
       print b + "th time"
       b = b + 1.1
     print i * 2
     x = x + i
   return
+
+On tests: // loop tests
+  print "test"
+  if x != 3:
+    print x
+    loop y times:
+      return
+  loop z times at i:
+    while a:
+      while b at j:
+        return

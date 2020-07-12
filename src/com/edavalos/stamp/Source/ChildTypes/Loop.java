@@ -42,6 +42,10 @@ public class Loop extends Child {
         return type;
     }
 
+    public boolean isEmpty() {
+        return contents.isEmpty();
+    }
+
     public String CalculateToString(String indent) {
         String indents = indent + "  ";
         StringBuilder str = new StringBuilder(" {\n");
