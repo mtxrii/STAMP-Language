@@ -1,6 +1,8 @@
 # STAMP Lang
 ### Simple Translated Assembly Markup Programming Language
 
+<img src="https://i.imgur.com/u9bh6sC.png" width=60%>
+
 # Usage
 ### Execution
 Run Stamp once compiled with the files to execute as the first program argument. Arguments following filename will apply to your script. Like such:
