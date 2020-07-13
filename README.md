@@ -1,6 +1,8 @@
 # STAMP Lang
 ### Simple Translated Assembly Markup Programming Language
 
+STAMP is an easy to learn, lightweight, and powerful scripting language inspired by the grammar of Python, the procedure-jump loops of Assembly, and the indentation system of both. It aims to be a straightforward and intuitive language, while preserving some long lost elements of Assembly's control flow, mainly the jumps & operations.
+
 <img src="https://i.imgur.com/u9bh6sC.png" width=60%>
 
 # Usage
