@@ -4,7 +4,7 @@ import com.edavalos.stamp.Runner;
 import com.edavalos.stamp.Source.ChildTypes.Var;
 import com.edavalos.stamp.Types.VarType;
 
-public class MathExpression {
+public class MathExpression implements ASTEval {
     private String actualInput;
     private final String[] splitInput;
     private boolean checked;
@@ -16,6 +16,7 @@ public class MathExpression {
         checked = false;
     }
 
+    @Override
     public boolean areVarsValid() {
         for (String str : splitInput) {
             if (!Var.isValidIdentifier(str)) continue;
@@ -27,6 +28,7 @@ public class MathExpression {
         return true;
     }
 
+    @Override
     public void insertVars() {
         if (!checked) return;
 
@@ -40,6 +42,7 @@ public class MathExpression {
         }
     }
 
+    @Override
     public void evaluate() {
         if (!checked) return;
 
