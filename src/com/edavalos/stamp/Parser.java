@@ -54,7 +54,7 @@ public final class Parser {
                 continue;
             }
 
-            if (statement.contains("=") && !statement.contains("==") && !statement.contains("!=")) {
+            if (statement.split(" ")[1].equals("=") || statement.split(" ")[2].equals("=")) {
                 addVar(statement, ((int) line));
                 continue;
             }

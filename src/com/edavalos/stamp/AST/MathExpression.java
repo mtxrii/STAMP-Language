@@ -5,15 +5,23 @@ import com.edavalos.stamp.Source.ChildTypes.Var;
 import com.edavalos.stamp.Types.VarType;
 
 public class MathExpression implements ASTEval {
-    private String actualInput;
+    private String workingInput;
     private final String[] splitInput;
     private boolean checked;
     private double result;
 
     public MathExpression(String input) {
-        actualInput = input;
-        splitInput = input.replaceAll("[()]", " ").split(" ");
         checked = false;
+
+        workingInput = input;
+        splitInput = input
+                .replaceAll("[()]",  " ")
+                .replaceAll("[+]", " + ")
+                .replaceAll("[-]", " - ")
+                .replaceAll("[*]", " * ")
+                .replaceAll("[/]", " / ")
+                .replaceAll("[%]", " % ")
+                .split(" "); // air out these operators
     }
 
     @Override
@@ -37,7 +45,7 @@ public class MathExpression implements ASTEval {
 
             if (Runner.variables.containsKey(str)) {
                 String var = Runner.variables.get(str).toString();
-                actualInput = actualInput.replaceAll(str, var);
+                workingInput = workingInput.replaceAll(str, var);
             }
         }
     }
@@ -46,7 +54,7 @@ public class MathExpression implements ASTEval {
     public void evaluate() {
         if (!checked) return;
 
-        result = eval(actualInput);
+        result = eval(workingInput);
     }
 
     public double getResult() {
@@ -62,7 +70,7 @@ public class MathExpression implements ASTEval {
     // EVAL ALGORITHM GENEROUSLY PROVIDED BY:
     // https://stackoverflow.com/a/26227947
 
-    public static double eval(final String str) {
+    private static double eval(final String str) {
         return new Object() {
             int pos = -1, ch;
 
