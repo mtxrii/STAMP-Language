@@ -13,7 +13,7 @@ public class Var extends Child {
 
     public Var(int line, VarType variableType, String identifier, String contents) {
         super(line, Statement.VAR);
-        if (identifier.contains("\"") || identifier.contains(":")) {
+        if (!isValidIdentifier(identifier)) {
             System.out.println("[ERR] " + Main.fileName + ":" + line + " -> Variable name '" + identifier + "' cannot have special characters.");
             System.exit(0);
         }
@@ -26,7 +26,7 @@ public class Var extends Child {
 
     public Var(int line, String identifier, String contents) {
         super(line, Statement.VAR);
-        if (identifier.contains("\"") || identifier.contains(":")) {
+        if (!isValidIdentifier(identifier)) {
             System.out.println("[ERR] " + Main.fileName + ":" + line + " -> Variable name '" + identifier + "' cannot have special characters.");
             System.exit(0);
         }
@@ -52,5 +52,15 @@ public class Var extends Child {
     @Override
     public void run() {
 
+    }
+
+
+
+    public static boolean isValidIdentifier(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (!Character.isLetterOrDigit(c) && (c != '_')) return false;
+        }
+        return true;
     }
 }
