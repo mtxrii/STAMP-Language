@@ -20,6 +20,17 @@ public final class Runner {
             variables.put(key, value);
         }
 
+        if (Main.debugMode) {
+            VarNode<Integer> intExample = new VarNode<>(5);
+            VarNode<Double>  floExample = new VarNode<>(5.3);
+            VarNode<Boolean> blnExample = new VarNode<>(false);
+
+            variables.put("intExample", intExample);
+            variables.put("floExample", floExample);
+            variables.put("blnExample", blnExample);
+        }
+
+
 
 
 
