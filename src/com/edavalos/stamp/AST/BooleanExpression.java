@@ -1,6 +1,8 @@
 package com.edavalos.stamp.AST;
 
 import com.edavalos.stamp.Runner;
+import com.edavalos.stamp.Source.ChildTypes.Var;
+import com.edavalos.stamp.Types.VarType;
 
 import java.util.Stack;
 
@@ -18,11 +20,31 @@ public class BooleanExpression implements ASTEval {
 
     @Override
     public boolean areVarsValid() {
+        for (String s : splitInput) {
+            if (!Var.isValidIdentifier(s)) continue;
 
+            if (Runner.variables.containsKey(s)) {
+                if (Runner.variables.get(s).getType() != VarType.BLN) return false;
+            }
+            else return false;
+        }
+        checked = true;
+        return true;
     }
 
     @Override
     public void insertVars() {
+        if (!checked) return;
+
+        for (int i = 0; i < splitInput.length; i++) {
+            if (!Var.isValidIdentifier(splitInput[i])) continue;
+            assert Runner.variables.containsKey(splitInput[i]);
+
+            VarNode<?> var = Runner.variables.get(splitInput[i]);
+            assert var.getType() == VarType.BLN;
+
+            splitInput[i] = var.getContents().toString();
+        }
 
     }
 
