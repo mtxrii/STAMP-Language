@@ -103,7 +103,8 @@ The syntax for declaration is `type name = value` and the syntax for updating / 
   str e = "Hello"
   
   x = 4
-  bln i = T
+  bln i = T // this means true
+  bln j = F // this means false
   
   if i:
     y = 2 * x
