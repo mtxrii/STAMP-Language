@@ -57,7 +57,11 @@ public class Var extends Child {
 
 
     public static boolean isValidIdentifier(String str) {
-        for (int i = 0; i < str.length(); i++) {
+        int length = str.length();
+        assert length != 0;
+
+        if ((length < 2) && (str.toUpperCase().charAt(0) == 'T' || str.toUpperCase().charAt(0) == 'F')) return false;
+        for (int i = 0; i < length; i++) {
             char c = str.charAt(i);
             if (!Character.isLetterOrDigit(c) && (c != '_')) return false;
         }

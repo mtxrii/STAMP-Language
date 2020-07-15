@@ -51,10 +51,17 @@ public class MathExpression implements ASTEval {
     }
 
     @Override
-    public void evaluate() {
-        if (!checked) return;
+    public boolean evaluate() {
+        if (!checked) return false;
 
-        result = eval(workingInput);
+        try {
+            result = eval(workingInput);
+            return true;
+        }
+        catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public double getResult() {

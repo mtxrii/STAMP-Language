@@ -12,7 +12,7 @@ public interface ASTEval {
     void insertVars();
 
     /**
-     * Uses respective algorithm to evaluate the expression
+     * Uses respective algorithm to evaluate the expression. Returns false if failed
      */
-    void evaluate();
+    boolean evaluate();
 }
