@@ -15,6 +15,9 @@ public final class Runner {
 
     public static void execute(List<Block> blocks, String[] programArgs) {
         for (int i = 1; i <= 4; i++) {
+            if (i >= programArgs.length) {
+                break;
+            }
             VarNode<String> value = new VarNode<>(programArgs[i]);
             String key = "arg" + (i - 1);
             variables.put(key, value);

@@ -1,0 +1,22 @@
+// prints factorial of program argument 1
+on run:
+  int f = arg1
+  int n = 1
+  push f
+  jump fact
+
+  pop result
+  print result
+
+on fact:
+  pop current
+  if current == 0:
+    push n
+    return // block ends and code continues at 'on run' where 'on fact' was first called. Return statements dont jump
+    // back to the same function if called from inside itself. So even tho on fact calls itself multiple times, the
+    // first time it hits a 'return' it goes back to where it was originally called
+
+  n = n * current
+  next = current - 1
+  push next
+  jump fact

@@ -23,7 +23,7 @@ public enum Action {
               //           code block and returns to where block was called. If run in main block
               //           ('on run:'), then it ends the program.
     RETURN,   // no args - only allowed in blocks that aren't main ('on run:'). Keeps running code where
-              //           this block was accessed with a JUMP
+              //           this block was accessed with a JUMP. Ignores calls to the same block
 
     /** System actions **/
     WAIT,     // int|flo <var|literal> - sleeps thread for given seconds
